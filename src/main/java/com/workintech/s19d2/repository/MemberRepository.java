@@ -10,6 +10,6 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
 
 
     @Query("SELECT m FROM Member m WHERE m.email = :email")
-    Optional<Member> findMemberByEmail(String email);
+    Optional<Member> findByEmail(String email);
 
 }

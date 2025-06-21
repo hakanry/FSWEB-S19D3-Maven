@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "account",schema = "bank")
-public class Account
-{
+public class Account{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
