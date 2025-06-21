@@ -8,15 +8,13 @@ import com.workintech.s19d2.controller.AuthController;
 import com.workintech.s19d2.dto.RegistrationMember;
 import com.workintech.s19d2.entity.Account;
 import com.workintech.s19d2.entity.Member;
-import com.workintech.s19d2.service.AccountService;
+import com.workintech.s19d2.service.AccountServiceImpl;
 import com.workintech.s19d2.service.AuthenticationService;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
@@ -47,7 +45,7 @@ class ControllerTest {
 
 
     @MockBean
-    private AccountService accountService;
+    private AccountServiceImpl accountService;
     @MockBean
     private UserDetailsService userDetailsService;
     @Autowired
