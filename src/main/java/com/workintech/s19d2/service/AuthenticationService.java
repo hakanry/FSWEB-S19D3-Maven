@@ -20,16 +20,17 @@ public class AuthenticationService {
 
 
     public Member register(String email, String password) {
-        String encodedPassword = passwordEncoder.encode(password);
-        Optional<Role> optionalRole = roleRepository.findById(2L);
-
-        Role userRole = new Role();
-        if(optionalRole.isPresent()){
-            userRole = roleRepository.findById(optionalRole.get().getId()).orElseThrow();
+        Optional<Member> memberOptional = memberRepository.findByEmail(email);
+        if(memberOptional.isPresent()){
+            throw new RuntimeException("User with given email already exist"+email);
         }
+        // ÜSTTE BU EMAİLLE KAYIT VAR MI KONTROLÜ YAPILIYOR
+        String encodedPassword = passwordEncoder.encode(password);
+
 
         List<Role> roles = new ArrayList<>();
-        roles.add(userRole);
+        addRoleAdmin(roles);
+        //addRoleUser(roles);
         Member member = new Member();
 
         member.setRoles(roles);
@@ -39,5 +40,29 @@ public class AuthenticationService {
 
     }
 
+    private void addRoleAdmin(List<Role> roleList){ // ADMIN ROLU VERİTABANINDA YOKSA OLUŞTUR VE VERILEN ROL LİSTESİNE EKLE VARSA SADECE ROL LİSTESİNE EKLE İŞLEMİ
+        Optional<Role> findRoleAdmin = roleRepository.findByAuthority("ADMIN");
+        if(!findRoleAdmin.isPresent()){
+            Role adminRole = new Role();
+            adminRole.setAuthority("ADMIN");
+            roleList.add(roleRepository.save(adminRole));
+        }
+        else {
+            roleList.add(findRoleAdmin.get());
 
+        }
+    }
+
+    private void addRoleUser(List<Role> roleList){ // USER ROLU VERİTABANINDA YOKSA OLUŞTUR VE VERILEN ROL LİSTESİNE EKLE VARSA SADECE ROL LİSTESİNE EKLE İŞLEMİ
+        Optional<Role> findRoleUser = roleRepository.findByAuthority("USER");
+        if(!findRoleUser.isPresent()){
+            Role userRole = new Role();
+            userRole.setAuthority("USER");
+            roleList.add(roleRepository.save(userRole));
+        }
+        else {
+            roleList.add(findRoleUser.get());
+
+        }
+    }
 }
